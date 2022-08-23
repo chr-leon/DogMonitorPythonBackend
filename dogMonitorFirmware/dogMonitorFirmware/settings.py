@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+import environ
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -71,14 +75,24 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'dogMonitorFirmware.wsgi.application'
 
+env = environ.Env()
+environ.Env.read_env()
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
+print("Db----------------------------->",env('XD'))
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
+    "default": {
+        "ENGINE": os.environ.get("DJANGO_ENGINE", "django.db.backends.sqlite3"),
+        "NAME": os.environ.get("DJANGO_DATABASE", os.path.join(BASE_DIR, "db.sqlite3")),
+        "USER": os.environ.get("DB_USER", "root"),
+        "PASSWORD": os.environ.get("DB_PWD", "password"),
+        "HOST": os.environ.get("DB_HOST", "db"),
+        "PORT": os.environ.get("DB_PORT", "3306"),
     }
 }
 

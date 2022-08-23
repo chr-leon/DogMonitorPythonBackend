@@ -18,3 +18,12 @@ class ServiceViewSet(viewsets.ViewSet):
             "running":False
         }
         return Response(simulatedStatus,status=status.HTTP_200_OK)
+    def get_sensors_health(self,request):
+        simulatedStatus = {
+            "temperature":True,
+            "microphone":True,
+            "imu_tail":True,
+            "imu_head":True,
+            "heart_rate":True
+        }
+        return Response(simulatedStatus,status=status.HTTP_200_OK)

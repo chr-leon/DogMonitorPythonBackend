@@ -7,5 +7,6 @@ app_name="services"
 
 urlpatterns = [
     path('routine', ServiceViewSet.as_view({ 'post':'routine' })),
+    path('status', ServiceViewSet.as_view({ 'get':'get_status' })),
 ]
  

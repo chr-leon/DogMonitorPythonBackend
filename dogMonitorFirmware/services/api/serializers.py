@@ -12,9 +12,4 @@ class RoutineSerializer(serializers.Serializer):
             uuid.UUID(str(data.get('routine_id')))
         except ValueError:
             raise serializers.ValidationError("El id de rutina debe ser un UUID")
-        # if len(data.get('new_password')) < 8:
-        #     raise serializers.ValidationError("Las nuevas contraseñas deben ser de al menos 9 caracteres")
-        # validCurrentPassword=check_password(data.get('current_password'),self.context.get("encrypted_password"))
-        # if not validCurrentPassword:
-        #     raise serializers.ValidationError("Contraseña actual incorrecta")
         return data

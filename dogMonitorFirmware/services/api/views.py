@@ -6,10 +6,15 @@ from services.api.serializers import RoutineSerializer
 
 # Create your views here.
 class ServiceViewSet(viewsets.ViewSet):
-    def routine(self, request, pk=None):
+    def routine(self, request):
         generalPriceSerializer = RoutineSerializer(data=request.data)
         if not generalPriceSerializer.is_valid():
             return Response(generalPriceSerializer.errors,status=status.HTTP_400_BAD_REQUEST)
         print(request.data)
         print("here")
         return Response({},status=status.HTTP_200_OK)
+    def get_status(self,request):
+        simulatedStatus = {
+            "running":False
+        }
+        return Response(simulatedStatus,status=status.HTTP_200_OK)

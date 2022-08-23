@@ -87,12 +87,12 @@ DATABASES = {
     #     'NAME': BASE_DIR / 'db.sqlite3',
     # }
     "default": {
-        "ENGINE": os.environ.get("DJANGO_ENGINE", "django.db.backends.sqlite3"),
-        "NAME": os.environ.get("DJANGO_DATABASE", os.path.join(BASE_DIR, "db.sqlite3")),
-        "USER": os.environ.get("DB_USER", "root"),
-        "PASSWORD": os.environ.get("DB_PWD", "password"),
-        "HOST": os.environ.get("DB_HOST", "db"),
-        "PORT": os.environ.get("DB_PORT", "3306"),
+        "ENGINE": env("DJANGO_ENGINE"),
+        "NAME": env("DJANGO_DATABASE"),
+        "USER": env("DB_USER"),
+        "PASSWORD": env("DB_PWD"),
+        "HOST": env("DB_HOST"),
+        "PORT": env("DB_PORT"),
     }
 }
 

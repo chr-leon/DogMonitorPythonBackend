@@ -6,6 +6,7 @@ from rest_framework import status
 
 # Create your views here.
 class ServiceViewSet(viewsets.ViewSet):
-    def retrieve(self, request, pk=None):
+    def routine(self, request, pk=None):
+        print(request.data)
         print("here")
         return Response({},status=status.HTTP_200_OK)

@@ -3,6 +3,8 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
 from services.api.serializers import RoutineSerializer
+from services.models import Imu
+from services.helpers import Imu_helper
 
 # Create your views here.
 class ServiceViewSet(viewsets.ViewSet):
@@ -19,6 +21,10 @@ class ServiceViewSet(viewsets.ViewSet):
         }
         return Response(simulatedStatus,status=status.HTTP_200_OK)
     def get_sensors_health(self,request):
+        #routineId = 1
+        #sensorType = "tail"
+        #data = [[100,1.001,2.123,3,4,5,6,7,8,9],[200,4,5,6,7,8,9,10,11,12],[300,7,8,9,10,11,12,13,14,15]]
+        #Imu_helper.bulk_save(routineId,data,sensorType)
         simulatedStatus = {
             "temperature":True,
             "microphone":True,

@@ -9,7 +9,8 @@ class RoutineSerializer(serializers.Serializer):
         if not ((data.get('type') == "stop_routine") or (data.get('type') == "stop_routine"))  :
              raise serializers.ValidationError("Los tipos de eventos deben ser start_routine ó stop_routine")
         try:
-            uuid.UUID(str(data.get('routine_id')))
+            if int(data.get('routine_id')) <= 0:
+                raise serializers.ValidationError("El id de la rutina debe ser mayor a 0")
         except ValueError:
-            raise serializers.ValidationError("El id de rutina debe ser un UUID")
+            raise serializers.ValidationError("El id de rutina debe ser un numero")
         return data

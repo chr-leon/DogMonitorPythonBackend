@@ -6,7 +6,7 @@ class RoutineSerializer(serializers.Serializer):
     routine_id = serializers.CharField()
     def validate(self, data):
         print("validating")
-        if not ((data.get('type') == "stop_routine") or (data.get('type') == "stop_routine"))  :
+        if not ((data.get('type') == "start_routine") or (data.get('type') == "stop_routine"))  :
              raise serializers.ValidationError("Los tipos de eventos deben ser start_routine ó stop_routine")
         try:
             if int(data.get('routine_id')) <= 0:

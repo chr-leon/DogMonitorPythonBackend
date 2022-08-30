@@ -1,3 +1,4 @@
+from sre_constants import SUCCESS
 from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -6,6 +7,9 @@ from services.api.serializers import RoutineSerializer
 from services.models import Imu
 from services.helpers import Imu_helper
 
+from sampling.sampling import startSampling
+from sampling.sampling import stopSampling
+
 # Create your views here.
 class ServiceViewSet(viewsets.ViewSet):
     def routine(self, request):
@@ -13,8 +17,26 @@ class ServiceViewSet(viewsets.ViewSet):
         if not generalPriceSerializer.is_valid():
             return Response(generalPriceSerializer.errors,status=status.HTTP_400_BAD_REQUEST)
         print(request.data)
-        print("here")
-        return Response({},status=status.HTTP_200_OK)
+        
+        # Extract data from request.
+        routineId = request.data['routine_id']
+        type = request.data['type']
+
+        # Start sampling.
+        succes = False
+        if type == "start_routine":
+            duration = request.data['duration']
+            succes = startSampling(routineId,duration)
+            print("Routine Started: " + str(succes))
+        elif type == "stop_routine":
+            print("Routine Stopped")
+            succes = stopSampling(routineId)        
+        
+        if succes:
+            return Response(status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        
     def get_status(self,request):
         simulatedStatus = {
             "running":False

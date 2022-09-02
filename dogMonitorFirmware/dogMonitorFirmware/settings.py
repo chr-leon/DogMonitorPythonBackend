@@ -89,29 +89,29 @@ CORS_ORIGIN_ALLOW_ALL = True
 #     'localhost','127.0.0.1','localhost:4000','0.0.0.0'
 # ]
 
-CORS_URLS_REGEX = r'^/.*$'
+# CORS_URLS_REGEX = r'^/.*$'
 
-CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ORIGIN_ALLOW_ALL = True
 
-CORS_ALLOW_CREDENTIALS = False
+# CORS_ALLOW_CREDENTIALS = False
 
-CORS_REPLACE_HTTPS_REFERER = True
+# CORS_REPLACE_HTTPS_REFERER = True
 
-CORS_ALLOW_METHODS = [
-    'DELETE',
-    'GET',
-    'OPTIONS',
-    'PATCH',
-    'POST',
-    'PUT',
-]
+# CORS_ALLOW_METHODS = [
+#     'DELETE',
+#     'GET',
+#     'OPTIONS',
+#     'PATCH',
+#     'POST',
+#     'PUT',
+# ]
 
-CORS_ALLOW_HEADERS = [
-    'accept', 'accept-encoding', 'authorization', 'content-type', 'dnt',
-    'origin', 'user-agent', 'x-csrftoken', 'x-requested-with', 'Authorization'
-]
+# CORS_ALLOW_HEADERS = [
+#     'accept', 'accept-encoding', 'authorization', 'content-type', 'dnt',
+#     'origin', 'user-agent', 'x-csrftoken', 'x-requested-with', 'Authorization'
+# ]
 
-CORS_EXPOSE_HEADERS = ['authorization', 'Authorization']
+# CORS_EXPOSE_HEADERS = ['authorization', 'Authorization']
 
 
 

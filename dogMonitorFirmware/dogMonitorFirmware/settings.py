@@ -57,9 +57,10 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
 ]
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3030',
-]
+CORS_ALLOW_ALL_ORIGINS = True
+# CORS_ALLOWED_ORIGINS = [
+#     'http://localhost:3030',
+# ]
 #CSRF_COOKIE_HTTPONLY = True
 
 ROOT_URLCONF = 'dogMonitorFirmware.urls'

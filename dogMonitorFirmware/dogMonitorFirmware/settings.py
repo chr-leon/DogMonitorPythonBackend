@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'dogMonitorFirmware.wsgi.application'
 env = environ.Env()
 environ.Env.read_env()
 
-CORS_ORIGIN_ALLOW_ALL = True
+##CORS_ORIGIN_ALLOW_ALL = True
 
 # CORS_ORIGIN_WHITELIST = ( 'localhost:8080','localhost:8000')
 

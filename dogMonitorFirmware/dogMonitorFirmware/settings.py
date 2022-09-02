@@ -36,6 +36,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'services',
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -52,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 #CSRF_COOKIE_HTTPONLY = True
 
@@ -77,6 +79,41 @@ WSGI_APPLICATION = 'dogMonitorFirmware.wsgi.application'
 
 env = environ.Env()
 environ.Env.read_env()
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+# CORS_ORIGIN_WHITELIST = ( 'localhost:8080','localhost:8000')
+
+# CSRF_TRUSTED_ORIGINS = ('localhost:4200', 'localhost:8000', 'localhost:8080','localhost','127.0.0.1')
+# BASIC_AUTH_WHITELISTED_HTTP_HOSTS = [
+#     'localhost','127.0.0.1','localhost:4000','0.0.0.0'
+# ]
+
+CORS_URLS_REGEX = r'^/.*$'
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOW_CREDENTIALS = False
+
+CORS_REPLACE_HTTPS_REFERER = True
+
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+
+CORS_ALLOW_HEADERS = [
+    'accept', 'accept-encoding', 'authorization', 'content-type', 'dnt',
+    'origin', 'user-agent', 'x-csrftoken', 'x-requested-with', 'Authorization'
+]
+
+CORS_EXPOSE_HEADERS = ['authorization', 'Authorization']
+
+
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases

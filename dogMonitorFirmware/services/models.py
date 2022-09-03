@@ -2,6 +2,14 @@ from pyexpat import model
 from statistics import mode
 from unicodedata import name
 from django.db import models
+
+class Device(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=200)
+    class Meta:
+        db_table="device"
+
+
 class Routine(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)

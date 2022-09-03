@@ -62,7 +62,7 @@ class DeviceViewSet(viewsets.ViewSet):
     def get_device(self):
         querySet = Device.objects.all()
         device = querySet.filter(pk=1)
-        serializer = ReadDeviceModelSerializer(many=True,device)
+        serializer = ReadDeviceModelSerializer(device,many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
 
         

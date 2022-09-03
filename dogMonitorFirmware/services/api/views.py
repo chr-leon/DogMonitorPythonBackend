@@ -67,7 +67,12 @@ class DeviceViewSet(viewsets.ViewSet):
     def update_device(self,request):
         querySet = Device.objects.all()
         devices = querySet.filter(pk=1)
-        serializer = UpdateDeviceSerializer(instace=devices[0],data=request.data)
+        serializer = UpdateDeviceSerializer(
+                instance=devices[0],
+                data=request.data
+        )
+        if serializer.is_valid(): 
+            serializer.save()
         return Response(serializer.data,status=status.HTTP_200_OK)
 
         

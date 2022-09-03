@@ -59,10 +59,10 @@ class ServiceViewSet(viewsets.ViewSet):
 
 
 class DeviceViewSet(viewsets.ViewSet):
-    def get_device(self, request):
+    def get_device(self):
         querySet = Device.objects.all()
         device = querySet.filter(pk=1)
-        serializer = ReadDeviceModelSerializer(device)
+        serializer = ReadDeviceModelSerializer(many=True,device)
         return Response(serializer.data,status=status.HTTP_200_OK)
 
         

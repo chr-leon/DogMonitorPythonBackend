@@ -1,5 +1,5 @@
 from rest_framework import serializers
-import uuid
+from services.models import Routine
 
 class RoutineSerializer(serializers.Serializer):
     type = serializers.CharField()
@@ -14,3 +14,8 @@ class RoutineSerializer(serializers.Serializer):
         except ValueError:
             raise serializers.ValidationError("El id de rutina debe ser un numero")
         return data
+
+class ReadRoutineModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Routine
+        fields = ["id","name","dog_name"]

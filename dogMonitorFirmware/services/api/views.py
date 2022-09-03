@@ -4,12 +4,17 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
 from services.api.device_serializer import ReadDeviceModelSerializer, UpdateDeviceSerializer
-from services.api.serializers import RoutineSerializer
-from services.models import Device, Imu
-from services.helpers import Imu_helper
+from services.api.routine_serializers import ReadRoutineModelSerializer, RoutineSerializer
+from rest_framework.generics import ListAPIView 
+
 
 from sampling.sampling import startSampling
 from sampling.sampling import stopSampling
+from services.models import Routine
+from rest_framework.filters import SearchFilter, OrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend
+
+
 
 # Create your views here.
 class ServiceViewSet(viewsets.ViewSet):
@@ -75,4 +80,14 @@ class DeviceViewSet(viewsets.ViewSet):
             serializer.save()
         return Response(serializer.data,status=status.HTTP_200_OK)
 
-        
+
+class RoutineListView(ListAPIView):
+    queryset = Routine.objects.all()
+    serializer_class = ReadRoutineModelSerializer
+    filter_backends = (SearchFilter,DjangoFilterBackend, OrderingFilter)
+    filterset_fields={
+        # 'contract_operator__application_form__operator':['exact'],
+        # 'contract_asset__rent_request__end_date':['gte','lte'],
+
+    }
+    search_fields=("status")

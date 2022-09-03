@@ -1,0 +1,10 @@
+[
+    {
+        "model":"services.device",
+        "pk":1,
+        "fields":
+        {
+            "name":"pechera"
+        }
+    }
+]

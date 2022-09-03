@@ -6,6 +6,8 @@ from services.api.views import ServiceViewSet
 app_name="services"
 
 urlpatterns = [
+
+    path('device', ServiceViewSet.as_view({ 'post':'routine' })),
     path('routine', ServiceViewSet.as_view({ 'post':'routine' })),
     path('status', ServiceViewSet.as_view({ 'get':'get_status' })),
     path('health', ServiceViewSet.as_view({ 'get':'get_sensors_health' })),

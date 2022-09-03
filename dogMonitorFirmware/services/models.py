@@ -6,6 +6,8 @@ class Routine(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
     dog_name=models.CharField(max_length=200)
+    class Meta:
+        db_table="routine"
 
 # Create your models here.
 class Imu(models.Model):

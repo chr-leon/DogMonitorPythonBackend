@@ -8,6 +8,8 @@ app_name="services"
 urlpatterns = [
 
     path('device', DeviceViewSet.as_view({ 'get':'get_device' })),
+    path('device', DeviceViewSet.as_view({ 'put':'update_device' })),
+    
     path('routine', ServiceViewSet.as_view({ 'post':'routine' })),
     path('status', ServiceViewSet.as_view({ 'get':'get_status' })),
     path('health', ServiceViewSet.as_view({ 'get':'get_sensors_health' })),

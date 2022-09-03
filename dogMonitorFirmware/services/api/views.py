@@ -3,7 +3,7 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
-from services.api.device_serializer import ReadDeviceModelSerializer
+from services.api.device_serializer import ReadDeviceModelSerializer, UpdateDeviceSerializer
 from services.api.serializers import RoutineSerializer
 from services.models import Device, Imu
 from services.helpers import Imu_helper
@@ -63,6 +63,11 @@ class DeviceViewSet(viewsets.ViewSet):
         querySet = Device.objects.all()
         devices = querySet.filter(pk=1)
         serializer = ReadDeviceModelSerializer(devices[0])
+        return Response(serializer.data,status=status.HTTP_200_OK)
+    def update_device(self,request):
+        querySet = Device.objects.all()
+        devices = querySet.filter(pk=1)
+        serializer = UpdateDeviceSerializer(instace=devices[0],data=request.data)
         return Response(serializer.data,status=status.HTTP_200_OK)
 
         

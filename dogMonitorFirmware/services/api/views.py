@@ -3,8 +3,9 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
+from services.api.device_serializer import ReadDeviceModelSerializer
 from services.api.serializers import RoutineSerializer
-from services.models import Imu
+from services.models import Device, Imu
 from services.helpers import Imu_helper
 
 from sampling.sampling import startSampling
@@ -55,3 +56,13 @@ class ServiceViewSet(viewsets.ViewSet):
             "heart_rate":True
         }
         return Response(simulatedStatus,status=status.HTTP_200_OK)
+
+
+class DeviceViewSet(viewsets.ViewSet):
+    def get_device(self, request):
+        querySet = Device.objects.all()
+        device = querySet.filter(pk=1)
+        serializer = ReadDeviceModelSerializer(device)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
+        

@@ -1,6 +1,7 @@
 from services.models import Routine
-from sensors.models import Imu
+from sensors.models import Imu, Temperature,HeartRate,Audio
 
+### Imu indexe
 TIME_INDEX=0
 AX_INDEX=1
 AY_INDEX=2
@@ -12,8 +13,13 @@ MX_INDEX=7
 MY_INDEX=8
 MZ_INDEX=9
 
+### temperature index
+TEMPERATURE_INDEX=1
+##heart rate index
+HEART_RATE_INDEX=1
 
-def bulk_save(routineId,data,sensorType):
+
+def bulk_save_imu(routineId,data,sensorType):
     routineQuerySet = Routine.objects.all()
     routine = routineQuerySet.get(pk=routineId)
     listOfRecords = []
@@ -35,3 +41,40 @@ def bulk_save(routineId,data,sensorType):
         listOfRecords.append(imu)
     Imu.objects.bulk_create(listOfRecords)
     print(listOfRecords)
+
+def bulk_save_temperature(routineId,data):
+    routineQuerySet = Routine.objects.all()
+    routine = routineQuerySet.get(pk=routineId)
+    listOfRecords = []
+    for record in data:
+        temperature = Temperature(
+             sampled_at=record[TIME_INDEX],
+             value=record[TEMPERATURE_INDEX],
+            routine=routine
+        )
+        listOfRecords.append(temperature)
+    Temperature.objects.bulk_create(listOfRecords)
+    print(listOfRecords)
+
+def bulk_save_heart_rate(routineId,data):
+    routineQuerySet = Routine.objects.all()
+    routine = routineQuerySet.get(pk=routineId)
+    listOfRecords = []
+    for record in data:
+        heart_rate = HeartRate(
+             sampled_at=record[TIME_INDEX],
+             value=record[HEART_RATE_INDEX],
+            routine=routine
+        )
+        listOfRecords.append(heart_rate)
+    HeartRate.objects.bulk_create(listOfRecords)
+    print(listOfRecords)
+
+def save_file_name(routineId,fileName):
+    routineQuerySet = Routine.objects.all()
+    routine = routineQuerySet.get(pk=routineId)
+    audio = Audio(
+        file_name=fileName,
+        routine=routine
+    )
+    audio.save()

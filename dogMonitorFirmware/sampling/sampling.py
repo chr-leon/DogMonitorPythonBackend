@@ -2,7 +2,7 @@ import smbus			#import SMBus module of I2C
 from utils.RepeatedTimer import RepeatedTimer
 from sampling.mpuSampling import MPUSampling
 from utils.board import *
-from services.helpers.Imu_helper import bulk_save
+from services.helpers.Imu_helper import bulk_save_imu
 import time
 import threading
 
@@ -90,7 +90,7 @@ class Sampling(threading.Thread):
         mpu1Samples = self.mpuSampling.getSampleQueue()
         print("MPU Samples: ")
         print(mpu1Samples)
-        bulk_save(self.id,mpu1Samples,"head")
+        bulk_save_imu(self.id,mpu1Samples,"head")
         print("----------------------------------------------------")
         return
 

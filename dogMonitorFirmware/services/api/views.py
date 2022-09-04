@@ -97,6 +97,7 @@ class RoutineViewSet(viewsets.ViewSet):
         if not serializer.is_valid():
             return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
         serializer.save()
+        print(serializer.data['id'])
         return Response(serializer.data,status=status.HTTP_200_OK)
     def delete_routine(self,request,pk=None):
         queryset = Routine.objects.all()

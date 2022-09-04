@@ -99,8 +99,8 @@ class RoutineViewSet(viewsets.ViewSet):
             return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
         serializer.save()
         data = [
-            [0,1,2,3,4,5,6,7,8,9]
-            [0,1,2,3,4,5,6,7,8,9]
+            [0,1,2,3,4,5,6,7,8,9],
+            [0,1,2,3,4,5,6,7,8,9],
             [0,1,2,3,4,5,6,7,8,9]
         ]
         bulk_save(serializer.data['id'],data,"tail")

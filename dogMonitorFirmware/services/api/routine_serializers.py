@@ -31,4 +31,4 @@ class ReadRoutineByIdSerializer(serializers.ModelSerializer):
     audio = ReadAudioModelSerializer(many=True)
     class Meta:
         model=Routine
-        fields = ["id","name","dog_name"]
+        fields = ["id","name","dog_name",'imu','temperature','heart_rate','audio']

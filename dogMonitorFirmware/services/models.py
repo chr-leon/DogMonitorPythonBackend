@@ -1,6 +1,6 @@
 from pyexpat import model
 from django.db import models
-from sensors.models import Imu
+#from sensors.models import Imu
 class Device(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)

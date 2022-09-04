@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from services.api.sensors_serializer import ReadAudioModelSerializer, ReadHeartRateModelSerializer, ReadImuModelSerializer, ReadTemperatureModelSerializer
+#from services.api.sensors_serializer import ReadAudioModelSerializer, ReadHeartRateModelSerializer, ReadImuModelSerializer, ReadTemperatureModelSerializer
 from services.models import Routine
 
 class CreateRoutineSerializer(serializers.ModelSerializer):

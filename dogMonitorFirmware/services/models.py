@@ -3,24 +3,10 @@ from statistics import mode
 from unicodedata import name
 from django.db import models
 
-class Device(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=200)
-    class Meta:
-        db_table="device"
-        
-class Routine(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=200)
-    dog_name=models.CharField(max_length=200)
-    temperatures = models.ForeignKey( related_name="Temperature", on_delete=models.CASCADE,null=True,default="")
-    class Meta:
-        db_table="routine"
-
 # Create your models here.
 class Imu(models.Model):
     id = models.AutoField(primary_key=True)
-    routine = models.ForeignKey(Routine, on_delete=models.CASCADE)
+    #routine = models.ForeignKey(Routine, on_delete=models.CASCADE)
     sampled_at=models.IntegerField()
     
     a_x=models.FloatField()
@@ -41,7 +27,7 @@ class Imu(models.Model):
         
 class Temperature(models.Model):
     id = models.AutoField(primary_key=True)
-    routine = models.ForeignKey(Routine, on_delete=models.CASCADE)
+    #routine = models.ForeignKey(Routine, on_delete=models.CASCADE)
     sampled_at=models.IntegerField()
     value = models.FloatField(default=0.0)
     class Meta:
@@ -49,7 +35,7 @@ class Temperature(models.Model):
 
 class HeartRate(models.Model):
     id = models.AutoField(primary_key=True)
-    routine = models.ForeignKey(Routine, on_delete=models.CASCADE)
+    #routine = models.ForeignKey(Routine, on_delete=models.CASCADE)
     sampled_at=models.IntegerField()
     value = models.FloatField(default=0.0)
     class Meta:
@@ -57,7 +43,22 @@ class HeartRate(models.Model):
 
 class Audio(models.Model):
     id = models.AutoField(primary_key=True)
-    routine = models.ForeignKey(Routine, on_delete=models.CASCADE)
+    #routine = models.ForeignKey(Routine, on_delete=models.CASCADE)
     file_name =models.CharField(max_length=300)
     class Meta:
         db_table="audio"
+
+
+class Device(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=200)
+    class Meta:
+        db_table="device"
+        
+class Routine(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=200)
+    dog_name=models.CharField(max_length=200)
+    imus = models.ForeignKey(Imu, on_delete=models.CASCADE,null=True,default="")
+    class Meta:
+        db_table="routine"

@@ -1,27 +1,26 @@
 from django.db import models
-#from services.models import Routine
-# Create your models here.
-# Create your models here.
-# class Imu(models.Model):
-#     id = models.AutoField(primary_key=True)
-#     #routine = models.ForeignKey(Routine, on_delete=models.CASCADE)
-#     sampled_at=models.IntegerField()
+from services.models import Routine
+
+class Imu(models.Model):
+    id = models.AutoField(primary_key=True)
+    #routine = models.ForeignKey(Routine, on_delete=models.CASCADE)
+    sampled_at=models.IntegerField()
     
-#     a_x=models.FloatField()
-#     a_y=models.FloatField()
-#     a_z=models.FloatField()
+    a_x=models.FloatField()
+    a_y=models.FloatField()
+    a_z=models.FloatField()
 
-#     g_x=models.FloatField()
-#     g_y=models.FloatField()
-#     g_z=models.FloatField()
+    g_x=models.FloatField()
+    g_y=models.FloatField()
+    g_z=models.FloatField()
 
-#     m_x=models.FloatField()
-#     m_y=models.FloatField()
-#     m_z=models.FloatField()
-#     type=models.CharField(max_length=100)
+    m_x=models.FloatField()
+    m_y=models.FloatField()
+    m_z=models.FloatField()
+    type=models.CharField(max_length=100)
 
-#     class Meta:
-#         db_table="imu"
+    class Meta:
+        db_table="imu"
         
 # class Temperature(models.Model):
 #     id = models.AutoField(primary_key=True)

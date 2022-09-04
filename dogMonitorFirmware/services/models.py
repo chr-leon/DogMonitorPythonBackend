@@ -1,6 +1,6 @@
 from pyexpat import model
 from django.db import models
-from sensors.models import Imu
+#from sensors.models import Imu
 class Device(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
@@ -11,7 +11,7 @@ class Routine(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
     dog_name=models.CharField(max_length=200)
-    imus = models.ForeignKey(Imu, on_delete=models.CASCADE,null=True,default="")
+    #imus = models.ForeignKey(Imu, on_delete=models.CASCADE,null=True,default="")
     class Meta:
         db_table="routine"
 

@@ -4,7 +4,7 @@ from services.models import Routine
 # Create your models here.
 class Imu(models.Model):
     id = models.AutoField(primary_key=True)
-    routine = models.ForeignKey(Routine, on_delete=models.CASCADE)
+    routine = models.ForeignKey(Routine,related_name="imus", on_delete=models.CASCADE)
     sampled_at=models.IntegerField()
     
     a_x=models.FloatField()

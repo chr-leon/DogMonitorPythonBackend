@@ -1,5 +1,5 @@
 from django.db import models
-from services.models import Routine
+#from services.models import Routine
 
 class Imu(models.Model):
     id = models.AutoField(primary_key=True)

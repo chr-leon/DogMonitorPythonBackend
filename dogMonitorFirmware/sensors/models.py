@@ -4,7 +4,7 @@ from services.models import Routine
 # Create your models here.
 class Imu(models.Model):
     id = models.AutoField(primary_key=True)
-    routine = models.ForeignKey(Routine, on_delete=models.CASCADE)
+    #routine = models.ForeignKey(Routine, on_delete=models.CASCADE)
     sampled_at=models.IntegerField()
     
     a_x=models.FloatField()
@@ -25,7 +25,7 @@ class Imu(models.Model):
         
 class Temperature(models.Model):
     id = models.AutoField(primary_key=True)
-    routine = models.ForeignKey(Routine, on_delete=models.CASCADE)
+    #routine = models.ForeignKey(Routine, on_delete=models.CASCADE)
     sampled_at=models.IntegerField()
     value = models.FloatField(default=0.0)
     class Meta:
@@ -33,7 +33,7 @@ class Temperature(models.Model):
 
 class HeartRate(models.Model):
     id = models.AutoField(primary_key=True)
-    routine = models.ForeignKey(Routine, on_delete=models.CASCADE)
+    #routine = models.ForeignKey(Routine, on_delete=models.CASCADE)
     sampled_at=models.IntegerField()
     value = models.FloatField(default=0.0)
     class Meta:
@@ -41,7 +41,7 @@ class HeartRate(models.Model):
 
 class Audio(models.Model):
     id = models.AutoField(primary_key=True)
-    routine = models.ForeignKey(Routine, on_delete=models.CASCADE)
+    #routine = models.ForeignKey(Routine, on_delete=models.CASCADE)
     file_name =models.CharField(max_length=300)
     class Meta:
         db_table="audio"

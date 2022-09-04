@@ -27,7 +27,7 @@ def bulk_save(routineId,data,sensorType):
             m_y=record[MY_INDEX],
             m_z=record[MZ_INDEX],
             type=sensorType,
-            routineId=routineId
+            routine=routineId
         )
         listOfRecords.append(imu)
     Imu.objects.bulk_create(listOfRecords)

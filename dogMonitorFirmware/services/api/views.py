@@ -4,7 +4,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
 from services.api.device_serializer import ReadDeviceModelSerializer, UpdateDeviceSerializer
-from services.api.routine_serializers import ReadRoutineModelSerializer, RoutineSerializer
+from services.api.routine_serializers import ReadRoutineModelSerializer, CreateRoutineSerializer
 from rest_framework.generics import ListAPIView 
 from django.db.models import Q
 from sampling.sampling import startSampling
@@ -16,30 +16,30 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 
 # Create your views here.
 class ServiceViewSet(viewsets.ViewSet):
-    def routine(self, request):
-        serializer = RoutineSerializer(data=request.data)
-        if not serializer.is_valid():
-            return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
-        print(request.data)
+    # def routine(self, request):
+    #     serializer = RoutineSerializer(data=request.data)
+    #     if not serializer.is_valid():
+    #         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    #     print(request.data)
         
-        # Extract data from request.
-        routineId = request.data['routine_id']
-        type = request.data['type']
+    #     # Extract data from request.
+    #     routineId = request.data['routine_id']
+    #     type = request.data['type']
 
-        # Start sampling.
-        succes = False
-        if type == "start_routine":
-            duration = request.data['duration']
-            succes = startSampling(routineId,duration)
-            print("Routine Started: " + str(succes))
-        elif type == "stop_routine":
-            print("Routine Stopped")
-            succes = stopSampling(routineId)        
+    #     # Start sampling.
+    #     succes = False
+    #     if type == "start_routine":
+    #         duration = request.data['duration']
+    #         succes = startSampling(routineId,duration)
+    #         print("Routine Started: " + str(succes))
+    #     elif type == "stop_routine":
+    #         print("Routine Stopped")
+    #         succes = stopSampling(routineId)        
         
-        if succes:
-            return Response(status=status.HTTP_200_OK)
-        else:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+    #     if succes:
+    #         return Response(status=status.HTTP_200_OK)
+    #     else:
+    #         return Response(status=status.HTTP_400_BAD_REQUEST)
         
     def get_status(self,request):
         simulatedStatus = {
@@ -93,7 +93,7 @@ class RoutineViewSet(viewsets.ViewSet):
             serializer = ReadDeviceModelSerializer(filteredRoutines,many=True)
             return Response(serializer.data,status=status.HTTP_200_OK)
     def create_and_start_routine(self,request):
-        serializer = RoutineSerializer(data=request.data)
+        serializer = CreateRoutineSerializer(data=request.data)
         if not serializer.is_valid():
             return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
         return Response(serializer.data,status=status.HTTP_200_OK)

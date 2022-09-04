@@ -1,6 +1,6 @@
 from email.mime import audio
 from rest_framework import serializers
-from services.api.sensors_serializer import ReadAudioModelSerializer, ReadHeartRateModelSerializer, ReadImuModelSerializer, ReadTemperatureModelSerializer
+#from services.api.sensors_serializer import ReadAudioModelSerializer, ReadHeartRateModelSerializer, ReadImuModelSerializer, ReadTemperatureModelSerializer
 from services.models import Routine
 
 class CreateRoutineSerializer(serializers.ModelSerializer):
@@ -25,10 +25,10 @@ class ReadRoutineModelSerializer(serializers.ModelSerializer):
         fields = ["id","name","dog_name"]
 
 class ReadRoutineByIdSerializer(serializers.ModelSerializer):
-    imus = ReadImuModelSerializer(many=True)
+    #imus = ReadImuModelSerializer(many=True)
     #temperatures =ReadTemperatureModelSerializer(many=True)
     # heart_rate = ReadHeartRateModelSerializer(many=True)
     # audio = ReadAudioModelSerializer(many=True)
     class Meta:
         model=Routine
-        fields = ["id","name","dog_name",'imus'] #,'heart_rate','audio','imu']
+        fields = ["id","name","dog_name"] #,'heart_rate','audio','imu']

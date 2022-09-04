@@ -11,7 +11,7 @@ class Routine(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
     dog_name=models.CharField(max_length=200)
-    #imus = models.ForeignKey(Imu, on_delete=models.CASCADE,null=True,default="")
+    imus=models.OneToOneField("sensors.models.Imu", verbose_name=_("imus"), on_delete=models.CASCADE)
     class Meta:
         db_table="routine"
 

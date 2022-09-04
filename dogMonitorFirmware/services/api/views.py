@@ -98,13 +98,13 @@ class RoutineViewSet(viewsets.ViewSet):
         if not serializer.is_valid():
             return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
         serializer.save()
-        data = [
-            [0,1,2,3,4,5,6,7,8,9],
-            [0,1,2,3,4,5,6,7,8,9],
-            [0,1,2,3,4,5,6,7,8,9]
-        ]
-        bulk_save(routineId=serializer.data['id'],data=data,sensorType="tail")
-        ##succes = startSampling(serializer.data['id'],None)
+        # data = [
+        #     [0,1,2,3,4,5,6,7,8,9],
+        #     [0,1,2,3,4,5,6,7,8,9],
+        #     [0,1,2,3,4,5,6,7,8,9]
+        # ]
+        # bulk_save(routineId=serializer.data['id'],data=data,sensorType="tail")
+        succes = startSampling(serializer.data['id'],None)
         return Response(serializer.data,status=status.HTTP_200_OK)
     def delete_routine(self,request,pk=None):
         queryset = Routine.objects.all()
@@ -112,6 +112,6 @@ class RoutineViewSet(viewsets.ViewSet):
         routine.delete()
         return Response(status=200)
     def stop_routine(self,request):
-        succes = stopSampling(10)
+        succes = stopSampling()
         return Response({"success":succes},status=status.HTTP_200_OK)
 

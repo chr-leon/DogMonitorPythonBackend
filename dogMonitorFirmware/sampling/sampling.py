@@ -119,7 +119,7 @@ def startSampling(id, durationSeconds):
         return True
     return False
 
-def stopSampling(id):
+def stopSampling():
     global samplingProcess
     
     if samplingProcess == None:

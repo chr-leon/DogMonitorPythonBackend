@@ -35,7 +35,6 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'django_filters',
     'services',
     #'corsheaders',
     'django.contrib.admin',
@@ -58,6 +57,13 @@ MIDDLEWARE = [
     #'corsheaders.middleware.CorsMiddleware',
     #'django.middleware.common.CommonMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend'
+    ]
+}
+
 #ALLOWED_HOSTS = ['*']
 
 #CORS_ALLOW_ALL_ORIGINS = True

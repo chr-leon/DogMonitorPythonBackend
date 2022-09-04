@@ -102,3 +102,4 @@ class RoutineViewSet(viewsets.ViewSet):
         queryset = Routine.objects.all()
         routine = queryset.get(pk=pk)
         routine.delete()
+        return Response(status=200)

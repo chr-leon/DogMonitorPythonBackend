@@ -103,7 +103,7 @@ class RoutineViewSet(viewsets.ViewSet):
             [0,1,2,3,4,5,6,7,8,9],
             [0,1,2,3,4,5,6,7,8,9]
         ]
-        bulk_save(routineId=serializer.data['id'],data=data,type="tail")
+        bulk_save(routineId=serializer.data['id'],data=data,sensorType="tail")
         ##succes = startSampling(serializer.data['id'],None)
         return Response(serializer.data,status=status.HTTP_200_OK)
     def delete_routine(self,request,pk=None):

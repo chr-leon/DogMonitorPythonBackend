@@ -130,9 +130,9 @@ def stopSampling(id):
         print("No sampling is running")
         return True
     
-    if samplingProcess.id != id:
-        print("Another sampling is running")
-        return True
+    # if samplingProcess.id != id:
+    #     print("Another sampling is running")
+    #     return True
     else:
         samplingProcess.stop_sampling()
         time.sleep(1)

@@ -105,6 +105,6 @@ class RoutineViewSet(viewsets.ViewSet):
         routine.delete()
         return Response(status=200)
     def stop_routine(self,request):
-        succes = stopSampling(10,None)
+        succes = stopSampling()
         return Response({"success":succes},status=status.HTTP_200_OK)
 

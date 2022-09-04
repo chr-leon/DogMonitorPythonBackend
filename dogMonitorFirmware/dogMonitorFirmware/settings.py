@@ -36,7 +36,7 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'services',
-    'sensors'
+    'sensors',
     #'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',

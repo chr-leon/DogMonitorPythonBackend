@@ -9,7 +9,7 @@ from rest_framework.generics import ListAPIView
 from django.db.models import Q
 from sampling.sampling import startSampling
 from sampling.sampling import stopSampling
-from services.helpers.Imu_helper import bulk_save
+from services.helpers.Imu_helper import bulk_save_imu
 from services.models import Routine,Device
 from rest_framework.filters import SearchFilter, OrderingFilter
 
@@ -51,7 +51,7 @@ class ServiceViewSet(viewsets.ViewSet):
         #routineId = 1
         #sensorType = "tail"
         #data = [[100,1.001,2.123,3,4,5,6,7,8,9],[200,4,5,6,7,8,9,10,11,12],[300,7,8,9,10,11,12,13,14,15]]
-        #Imu_helper.bulk_save(routineId,data,sensorType)
+        #Imu_helper.bulk_save_imu(routineId,data,sensorType)
         simulatedStatus = {
             "temperature":True,
             "microphone":True,
@@ -103,7 +103,7 @@ class RoutineViewSet(viewsets.ViewSet):
         #     [0,1,2,3,4,5,6,7,8,9],
         #     [0,1,2,3,4,5,6,7,8,9]
         # ]
-        # bulk_save(routineId=serializer.data['id'],data=data,sensorType="tail")
+        # bulk_save_imu(routineId=serializer.data['id'],data=data,sensorType="tail")
         succes = startSampling(serializer.data['id'],None)
         return Response(serializer.data,status=status.HTTP_200_OK)
     def delete_routine(self,request,pk=None):

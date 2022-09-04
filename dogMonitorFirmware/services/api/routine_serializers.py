@@ -24,7 +24,7 @@ class ReadRoutineModelSerializer(serializers.ModelSerializer):
         fields = ["id","name","dog_name"]
 
 class ReadRoutineByIdSerializer(serializers.ModelSerializer):
-    imus = ReadImuModelSerializer(many=True)
+    #imus = ReadImuModelSerializer(many=True)
     #temperatures =ReadTemperatureModelSerializer(many=True)
     # heart_rate = ReadHeartRateModelSerializer(many=True)
     # audio = ReadAudioModelSerializer(many=True)

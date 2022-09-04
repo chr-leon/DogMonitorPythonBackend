@@ -1,6 +1,4 @@
 from pyexpat import model
-from statistics import mode
-from unicodedata import name
 from django.db import models
 from sensors.models import Imu
 class Device(models.Model):

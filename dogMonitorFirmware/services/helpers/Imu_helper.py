@@ -1,4 +1,5 @@
-from services.models import Imu, Routine
+from services.models import Routine
+from sensors.models import Imu
 
 TIME_INDEX=0
 AX_INDEX=1

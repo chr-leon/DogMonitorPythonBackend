@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from services.models import Imu, Routine
+from services.models import Audio, HeartRate, Imu, Temperature
 
 class ReadImuModelSerializer(serializers.ModelSerializer):
     class Meta:
@@ -21,15 +21,15 @@ class ReadImuModelSerializer(serializers.ModelSerializer):
 
 class ReadTemperatureModelSerializer(serializers.ModelSerializer):
     class Meta:
-        model=Routine
+        model=Temperature
         fields = ["id","sampled_at","value"]
 
 class ReadHeartRateModelSerializer(serializers.ModelSerializer):
     class Meta:
-        model=Routine
+        model=HeartRate
         fields = ["id","sampled_at","value"]
 
 class ReadAudioModelSerializer(serializers.ModelSerializer):
     class Meta:
-        model=Routine
+        model=Audio
         fields = ["id","file_name"]

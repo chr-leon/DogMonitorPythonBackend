@@ -2,8 +2,6 @@ from rest_framework import serializers
 from services.models import Routine
 
 class CreateRoutineSerializer(serializers.ModelSerializer):
-    name = serializers.CharField()
-    dog_name = serializers.CharField()
     ##routine_id = serializers.CharField()
     # def validate(self, data):
     #     print("validating")

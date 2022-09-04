@@ -2,6 +2,7 @@ from pyexpat import model
 from statistics import mode
 from unicodedata import name
 from django.db import models
+from services.models import Temperature
 
 class Device(models.Model):
     id = models.AutoField(primary_key=True)
@@ -13,6 +14,7 @@ class Routine(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
     dog_name=models.CharField(max_length=200)
+    temperatures = models.ForeignKey( Temperature, on_delete=models.CASCADE,null=True,default="")
     class Meta:
         db_table="routine"
 

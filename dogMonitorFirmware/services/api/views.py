@@ -85,12 +85,12 @@ class RoutineViewSet(viewsets.ViewSet):
         searchString = request.GET.get('search',None)
         if searchString == None:
             print("no filter")
-            serializer = ReadDeviceModelSerializer(querySet,many=True)
+            serializer = ReadRoutineModelSerializer(querySet,many=True)
             return Response(serializer.data,status=status.HTTP_200_OK)
         else:
             print("using filter: ",searchString)
             filteredRoutines = querySet.filter(Q(dog_name__startswith=searchString))
-            serializer = ReadDeviceModelSerializer(filteredRoutines,many=True)
+            serializer = ReadRoutineModelSerializer(filteredRoutines,many=True)
             return Response(serializer.data,status=status.HTTP_200_OK)
     def create_and_start_routine(self,request):
         serializer = CreateRoutineSerializer(data=request.data)

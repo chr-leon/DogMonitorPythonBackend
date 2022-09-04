@@ -86,10 +86,5 @@ class RoutineListView(ListAPIView):
     serializer_class = ReadRoutineModelSerializer
     filter_backends = (SearchFilter,DjangoFilterBackend, OrderingFilter)
     filterset_fields = ['name']
-    # filterset_fields={
-    #     'name'
-    #     # 'contract_operator__application_form__operator':['exact'],
-    #     # 'contract_asset__rent_request__end_date':['gte','lte'],
-
-    # }
-    search_fields=("name")
+    search_fields=('name')
+    ordering_fields = ['name']

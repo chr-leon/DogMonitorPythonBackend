@@ -9,7 +9,7 @@ from rest_framework.generics import ListAPIView
 from django.db.models import Q
 from sampling.sampling import startSampling
 from sampling.sampling import stopSampling
-from services.helpers.Imu_helper import bulk_save_imu
+from services.helpers.Imu_helper import bulk_save_heart_rate, bulk_save_imu, bulk_save_temperature, save_file_name
 from services.models import Routine,Device
 from rest_framework.filters import SearchFilter, OrderingFilter
 
@@ -98,12 +98,31 @@ class RoutineViewSet(viewsets.ViewSet):
         if not serializer.is_valid():
             return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
         serializer.save()
-        # data = [
-        #     [0,1,2,3,4,5,6,7,8,9],
-        #     [0,1,2,3,4,5,6,7,8,9],
-        #     [0,1,2,3,4,5,6,7,8,9]
-        # ]
-        # bulk_save_imu(routineId=serializer.data['id'],data=data,sensorType="tail")
+        routineId=serializer.data['id']
+        ######################## save data simulation
+        dataImu = [
+            [0,1,2,3,4,5,6,7,8,9],
+            [0,1,2,3,4,5,6,7,8,9],
+            [0,1,2,3,4,5,6,7,8,9]
+        ]
+        bulk_save_imu(routineId=routineId,data=dataImu,sensorType="tail")
+
+        dataTemperature = [
+            [0,1],
+            [3,4],
+            [5,6]
+        ]
+        bulk_save_temperature(routineId=routineId,data=dataTemperature)
+
+        dataHeartRate = [
+            [0,1],
+            [3,4],
+            [5,6]
+        ]
+        bulk_save_heart_rate(routineId=routineId,data=dataHeartRate)
+
+        save_file_name(routineId=routineId,fileName=serializer.data['name']+".mp3")
+        ###########################
         succes = startSampling(serializer.data['id'],None)
         return Response(serializer.data,status=status.HTTP_200_OK)
     def delete_routine(self,request,pk=None):

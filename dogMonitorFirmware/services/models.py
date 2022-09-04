@@ -13,7 +13,7 @@ class Routine(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
     dog_name=models.CharField(max_length=200)
-    temperatures = models.ForeignKey( "Temperature", on_delete=models.CASCADE,null=True,default="")
+    temperatures = models.ForeignKey( related_name="Temperature", on_delete=models.CASCADE,null=True,default="")
     class Meta:
         db_table="routine"
 

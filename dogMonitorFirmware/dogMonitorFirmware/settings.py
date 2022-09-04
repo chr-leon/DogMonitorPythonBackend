@@ -57,13 +57,6 @@ MIDDLEWARE = [
     #'corsheaders.middleware.CorsMiddleware',
     #'django.middleware.common.CommonMiddleware',
 ]
-
-REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': [
-        'django_filters.rest_framework.DjangoFilterBackend'
-    ]
-}
-
 #ALLOWED_HOSTS = ['*']
 
 #CORS_ALLOW_ALL_ORIGINS = True

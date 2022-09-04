@@ -6,8 +6,7 @@ from rest_framework import status
 from services.api.device_serializer import ReadDeviceModelSerializer, UpdateDeviceSerializer
 from services.api.routine_serializers import ReadRoutineModelSerializer, RoutineSerializer
 from rest_framework.generics import ListAPIView 
-
-
+from django.db.models import Q
 from sampling.sampling import startSampling
 from sampling.sampling import stopSampling
 from services.models import Routine,Device
@@ -81,10 +80,13 @@ class DeviceViewSet(viewsets.ViewSet):
         return Response(serializer.data,status=status.HTTP_200_OK)
 
 
-class RoutineListView(ListAPIView):
-    queryset = Routine.objects.all()
-    serializer_class = ReadRoutineModelSerializer
-    filter_backends = (SearchFilter,DjangoFilterBackend, OrderingFilter)
-    filterset_fields = ["name"]
-    search_fields=("name")
-    ordering_fields = ["name"]
+class RoutineViewSet(viewsets.ViewSet):
+    def search_device(self,request):
+        querySet = Routine.objects.all()
+        searchString =request.GET.get('search',None)
+        if searchString == None:
+            serializer = ReadDeviceModelSerializer(querySet,many=True)
+            return Response(serializer.data,status=status.HTTP_200_OK)
+        else:
+            querySet.filter(Q(name__startswith=searchString))
+            return Response(serializer.data,status=status.HTTP_200_OK)

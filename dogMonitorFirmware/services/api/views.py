@@ -84,9 +84,11 @@ class RoutineViewSet(viewsets.ViewSet):
         querySet = Routine.objects.all()
         searchString = request.GET.get('search',None)
         if searchString == None:
+            print("no filter")
             serializer = ReadDeviceModelSerializer(querySet,many=True)
             return Response(serializer.data,status=status.HTTP_200_OK)
         else:
+            print("using filter: ",searchString)
             filteredRoutines = querySet.filter(Q(name__startswith=searchString))
             serializer = ReadDeviceModelSerializer(filteredRoutines,many=True)
             return Response(serializer.data,status=status.HTTP_200_OK)

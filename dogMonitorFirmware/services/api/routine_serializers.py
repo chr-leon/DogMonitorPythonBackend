@@ -24,10 +24,10 @@ class ReadRoutineModelSerializer(serializers.ModelSerializer):
         fields = ["id","name","dog_name"]
 
 class ReadRoutineByIdSerializer(serializers.ModelSerializer):
-    imus = ReadImuModelSerializer(many=True)
-    #temperatures =ReadTemperatureModelSerializer(many=True)
-    # heart_rate = ReadHeartRateModelSerializer(many=True)
-    # audio = ReadAudioModelSerializer(many=True)
+    imu = ReadImuModelSerializer(many=True)
+    temperature =ReadTemperatureModelSerializer(many=True)
+    heart_rate = ReadHeartRateModelSerializer(many=True)
+    audio = ReadAudioModelSerializer(many=True)
     class Meta:
         model=Routine
-        fields = ["id","name","dog_name",'imus'] #,'heart_rate','audio','imu']
+        fields = ["id","name","dog_name",'imu','heart_rate','audio','temperature']

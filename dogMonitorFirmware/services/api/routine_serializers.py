@@ -15,6 +15,9 @@ class CreateRoutineSerializer(serializers.ModelSerializer):
     #     except ValueError:
     #         raise serializers.ValidationError("El id de rutina debe ser un numero")
     #     return data
+    class Meta:
+        model=Routine
+        fields = ["id","name","dog_name"]
 
 class ReadRoutineModelSerializer(serializers.ModelSerializer):
     class Meta:

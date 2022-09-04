@@ -82,10 +82,11 @@ class DeviceViewSet(viewsets.ViewSet):
 class RoutineViewSet(viewsets.ViewSet):
     def search_routine(self,request):
         querySet = Routine.objects.all()
-        searchString =request.GET.get('search',None)
+        searchString = request.GET.get('search',None)
         if searchString == None:
             serializer = ReadDeviceModelSerializer(querySet,many=True)
             return Response(serializer.data,status=status.HTTP_200_OK)
         else:
-            querySet.filter(Q(name__startswith=searchString))
+            filteredRoutines = querySet.filter(Q(name__startswith=searchString))
+            serializer = ReadDeviceModelSerializer(filteredRoutines,many=True)
             return Response(serializer.data,status=status.HTTP_200_OK)

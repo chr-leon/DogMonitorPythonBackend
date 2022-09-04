@@ -104,7 +104,7 @@ class RoutineViewSet(viewsets.ViewSet):
         routine = queryset.get(pk=pk)
         routine.delete()
         return Response(status=200)
-    def stop_routine(self,reques):
+    def stop_routine(self,request):
         succes = stopSampling(10,None)
         return Response({"success":succes},status=status.HTTP_200_OK)
 

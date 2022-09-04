@@ -1,5 +1,5 @@
 from services.models import Routine
-from sensors.models import Imu
+##from sensors.models import Imu
 
 TIME_INDEX=0
 AX_INDEX=1
@@ -17,21 +17,21 @@ def bulk_save(routineId,data,sensorType):
     routineQuerySet = Routine.objects.all()
     routine = routineQuerySet.get(pk=routineId)
     listOfRecords = []
-    for record in data:
-        imu = Imu(
-             sampled_at=record[TIME_INDEX],
-             a_x=record[AX_INDEX],
-            a_y=record[AY_INDEX],
-            a_z=record[AZ_INDEX],
-            g_x=record[GX_INDEX],
-            g_y=record[GY_INDEX],
-            g_z=record[GZ_INDEX],
-            m_x=record[MX_INDEX],
-            m_y=record[MY_INDEX],
-            m_z=record[MZ_INDEX],
-            type=sensorType,
-            routine=routine
-        )
-        listOfRecords.append(imu)
-    Imu.objects.bulk_create(listOfRecords)
+    # for record in data:
+    #     imu = Imu(
+    #          sampled_at=record[TIME_INDEX],
+    #          a_x=record[AX_INDEX],
+    #         a_y=record[AY_INDEX],
+    #         a_z=record[AZ_INDEX],
+    #         g_x=record[GX_INDEX],
+    #         g_y=record[GY_INDEX],
+    #         g_z=record[GZ_INDEX],
+    #         m_x=record[MX_INDEX],
+    #         m_y=record[MY_INDEX],
+    #         m_z=record[MZ_INDEX],
+    #         type=sensorType,
+    #         routine=routine
+    #     )
+    #     listOfRecords.append(imu)
+    # Imu.objects.bulk_create(listOfRecords)
     print(listOfRecords)

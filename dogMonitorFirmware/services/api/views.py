@@ -10,7 +10,7 @@ from rest_framework.generics import ListAPIView
 
 from sampling.sampling import startSampling
 from sampling.sampling import stopSampling
-from services.models import Routine
+from services.models import Routine,Device
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 

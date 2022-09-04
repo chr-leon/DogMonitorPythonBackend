@@ -92,4 +92,4 @@ class RoutineListView(ListAPIView):
     #     # 'contract_asset__rent_request__end_date':['gte','lte'],
 
     # }
-    search_fields=("status")
+    search_fields=("name")

@@ -14,7 +14,7 @@ urlpatterns = [
     #RoutineServices
     path('routine', RoutineViewSet.as_view({ 'post':'create_and_start_routine' })),
     path('routine/list', RoutineViewSet.as_view({ 'get':'search_routine' })),
-    path('routine/<int:pk>', RoutineViewSet.as_view({ 'delete':'delete_routine' })),
+    path('routine/<int:pk>/delete', RoutineViewSet.as_view({ 'delete':'delete_routine' })),
 
 
     path('status', ServiceViewSet.as_view({ 'get':'get_status' })),

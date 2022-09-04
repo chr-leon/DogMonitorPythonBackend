@@ -9,6 +9,7 @@ from rest_framework.generics import ListAPIView
 from django.db.models import Q
 from sampling.sampling import startSampling
 from sampling.sampling import stopSampling
+from services.helpers.Imu_helper import bulk_save
 from services.models import Routine,Device
 from rest_framework.filters import SearchFilter, OrderingFilter
 
@@ -97,7 +98,13 @@ class RoutineViewSet(viewsets.ViewSet):
         if not serializer.is_valid():
             return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
         serializer.save()
-        succes = startSampling(serializer.data['id'],None)
+        data = [
+            [0,1,2,3,4,5,6,7,8,9]
+            [0,1,2,3,4,5,6,7,8,9]
+            [0,1,2,3,4,5,6,7,8,9]
+        ]
+        bulk_save(serializer.data['id'],data,"tail")
+        ##succes = startSampling(serializer.data['id'],None)
         return Response(serializer.data,status=status.HTTP_200_OK)
     def delete_routine(self,request,pk=None):
         queryset = Routine.objects.all()

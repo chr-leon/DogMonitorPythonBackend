@@ -1,5 +1,5 @@
 from django.db import models
-from services.models import Routine
+#from services.models import Routine
 # Create your models here.
 # Create your models here.
 class Imu(models.Model):

@@ -92,7 +92,7 @@ class RoutineViewSet(viewsets.ViewSet):
             filteredRoutines = querySet.filter(Q(name__startswith=searchString))
             serializer = ReadDeviceModelSerializer(filteredRoutines,many=True)
             return Response(serializer.data,status=status.HTTP_200_OK)
-    def create_and_routine(self,request):
+    def create_and_start_routine(self,request):
         serializer = RoutineSerializer(data=request.data)
         if not serializer.is_valid():
             return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)

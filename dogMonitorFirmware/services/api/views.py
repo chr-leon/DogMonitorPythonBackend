@@ -80,7 +80,7 @@ class DeviceViewSet(viewsets.ViewSet):
 
 
 class RoutineViewSet(viewsets.ViewSet):
-    def search_device(self,request):
+    def search_routine(self,request):
         querySet = Routine.objects.all()
         searchString =request.GET.get('search',None)
         if searchString == None:

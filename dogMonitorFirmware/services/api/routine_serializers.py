@@ -21,3 +21,8 @@ class ReadRoutineModelSerializer(serializers.ModelSerializer):
     class Meta:
         model=Routine
         fields = ["id","name","dog_name"]
+
+class ReadRoutineByIdSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Routine
+        fields = ["id","name","dog_name"]

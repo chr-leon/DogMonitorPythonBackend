@@ -4,7 +4,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
 from services.api.device_serializer import ReadDeviceModelSerializer, UpdateDeviceSerializer
-from services.api.routine_serializers import ReadRoutineModelSerializer, CreateRoutineSerializer
+from services.api.routine_serializers import ReadRoutineByIdSerializer, ReadRoutineModelSerializer, CreateRoutineSerializer
 from rest_framework.generics import ListAPIView 
 from django.db.models import Q
 from sampling.sampling import startSampling
@@ -114,4 +114,11 @@ class RoutineViewSet(viewsets.ViewSet):
     def stop_routine(self,request):
         succes = stopSampling()
         return Response({"success":succes},status=status.HTTP_200_OK)
+        
+    def get_routine_by_id(self,request,pk):
+        queryset = Routine.objects.all()
+        routine = queryset.get(pk=pk)
+        serializer = ReadRoutineByIdSerializer(routine)
+        return Response(serializer.data,status=200)
+
 

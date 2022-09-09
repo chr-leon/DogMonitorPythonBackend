@@ -5,8 +5,8 @@ import threading
 import time
 mutex = threading.Lock()
 
-timerOffset = 0.010
-samplingPeriod = 1/30 - timerOffset
+timerOffset = 0.00
+samplingPeriod = 1/10 - timerOffset
 
 
 class MPUSampling(threading.Thread):
@@ -23,8 +23,7 @@ class MPUSampling(threading.Thread):
         print("Stopping sampling")
         self.stop = True
 
-    def getSample(self):
-        print("Getting sample")
+    def getSample(self):        
         sample = self.mpu.get_one_sample()
         if self.startTime == 0:
             self.startTime = time.perf_counter()

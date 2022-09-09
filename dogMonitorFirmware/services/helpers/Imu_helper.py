@@ -40,7 +40,7 @@ def bulk_save_imu(routineId,data,sensorType):
         )
         listOfRecords.append(imu)
     Imu.objects.bulk_create(listOfRecords)
-    print(listOfRecords)
+    # print(listOfRecords)
 
 def bulk_save_temperature(routineId,data):
     routineQuerySet = Routine.objects.all()

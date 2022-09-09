@@ -53,14 +53,14 @@ class Sampling(threading.Thread):
         self.mpuSampling.start()
         
         # Start Time.
-        startTime = time.time()
+        startTime = time.perf_counter()
         now = startTime
         lastSavedTime = startTime
         
         while(True):
-            # Save data every second.            
-            now = time.time()            
-            if lastSavedTime + 1 < now:
+            # Save data every 5 seconds.            
+            now = time.perf_counter()          
+            if lastSavedTime + 5 < now:
                 lastSavedTime = now
                 self.saveSamples()
 
@@ -72,7 +72,6 @@ class Sampling(threading.Thread):
                 time.sleep(0.5)
                 if self.mpuSampling.isRunning():
                     print("Failed to Stop MPU sampling")
-
                 # Stop led timer.
                 ledTimer.stop()
                 GreenLedOn()
@@ -85,13 +84,10 @@ class Sampling(threading.Thread):
     def isRunning(self):
         return self.running
 
-    def saveSamples(self):
-        print("Saving samples")
+    def saveSamples(self):        
         mpu1Samples = self.mpuSampling.getSampleQueue()
-        print("MPU Samples: ")
-        print(mpu1Samples)
-        bulk_save_imu(self.id,mpu1Samples,"head")
-        print("----------------------------------------------------")
+        print("Samples saved: " + str(len(mpu1Samples)))        
+        bulk_save_imu(self.id,mpu1Samples,"head")        
         return
 
 samplingProcess = None

@@ -78,7 +78,7 @@ class MPUHandler:
 
     def get_sample(self, sample_per_second, sample_time):
         avg_time = 0.0066
-        start_time = time.time()
+        start_time = time.perf_counter()
         elapsed_time = 0
         t = 1 / float(sample_per_second)
         data_response = []
@@ -102,7 +102,7 @@ class MPUHandler:
               Gx = gyro_x/131.0
               Gy = gyro_y/131.0
               Gz = gyro_z/131.0
-              elapsed_time = time.time() - start_time
+              elapsed_time = time.perf_counter - start_time
               #data_response.append((elapsed_time, Ax, Ay, Az, Gx, Gy, Gz,0,0,0,'test'))
               data_response.append((Ax, Ay, Az))
               time.sleep(t + avg_time)

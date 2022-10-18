@@ -73,7 +73,7 @@ class MPUHandler:
         Gx = gyro_x/131.0
         Gy = gyro_y/131.0
         Gz = gyro_z/131.0
-        return [0, Ax, Ay, Az, Gx, Gy, Gz, 0, 0, 0]
+        return [0, Ax, Ay, Az, Gx, Gy, Gz]
 
 
     def get_sample(self, sample_per_second, sample_time):

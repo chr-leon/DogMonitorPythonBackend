@@ -1,5 +1,5 @@
 from services.models import Routine
-from sensors.models import Imu, Temperature,HeartRate,Audio
+from sensors.models import Imu, Magnetometer, Temperature,HeartRate,Audio
 
 ### Imu indexe
 TIME_INDEX=0
@@ -9,9 +9,9 @@ AZ_INDEX=3
 GX_INDEX=4
 GY_INDEX=5
 GZ_INDEX=6
-MX_INDEX=7
-MY_INDEX=8
-MZ_INDEX=9
+MX_INDEX=1
+MY_INDEX=2
+MZ_INDEX=3
 
 ### temperature index
 TEMPERATURE_INDEX=1
@@ -32,6 +32,20 @@ def bulk_save_imu(routineId,data,sensorType):
             g_x=record[GX_INDEX],
             g_y=record[GY_INDEX],
             g_z=record[GZ_INDEX],
+            type=sensorType,
+            routine=routine
+        )
+        listOfRecords.append(imu)
+    Imu.objects.bulk_create(listOfRecords)
+    # print(listOfRecords)
+
+def bulk_save_magnetometer(routineId,data,sensorType):
+    routineQuerySet = Routine.objects.all()
+    routine = routineQuerySet.get(pk=routineId)
+    listOfRecords = []
+    for record in data:
+        imu = Magnetometer(
+            sampled_at=record[TIME_INDEX],
             m_x=record[MX_INDEX],
             m_y=record[MY_INDEX],
             m_z=record[MZ_INDEX],
@@ -39,7 +53,7 @@ def bulk_save_imu(routineId,data,sensorType):
             routine=routine
         )
         listOfRecords.append(imu)
-    Imu.objects.bulk_create(listOfRecords)
+    Magnetometer.objects.bulk_create(listOfRecords)
     # print(listOfRecords)
 
 def bulk_save_temperature(routineId,data):

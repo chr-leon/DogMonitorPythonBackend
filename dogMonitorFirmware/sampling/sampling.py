@@ -140,8 +140,9 @@ def stopSampling():
 def isRunning():
     if samplingProcess == None:
         print("No sampling is running")
-        return True
+        return False
 
-    if not samplingProcess.isRunning():
-        print("sampling is running")
+    if samplingProcess.isRunning():
         return True
+    else: 
+        return False

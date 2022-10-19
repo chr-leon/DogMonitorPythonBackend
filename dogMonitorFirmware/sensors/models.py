@@ -14,10 +14,6 @@ class Imu(models.Model):
     g_x=models.FloatField()
     g_y=models.FloatField()
     g_z=models.FloatField()
-
-    m_x=models.FloatField()
-    m_y=models.FloatField()
-    m_z=models.FloatField()
     type=models.CharField(max_length=100)
 
     class Meta:

@@ -125,7 +125,7 @@ class RoutineViewSet(viewsets.ViewSet):
             [2,3,4,5],
             [2,6,7,8]
         ]
-        bulk_save_magnetometer(routineId=routineId,data=dataMagnetometer)
+        bulk_save_magnetometer(routineId=routineId,data=dataMagnetometer,sensorType="tail")
 
         # save_file_name(routineId=routineId,fileName=serializer.data['name']+".mp3")
         ###########################

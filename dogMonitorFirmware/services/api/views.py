@@ -97,8 +97,8 @@ class RoutineViewSet(viewsets.ViewSet):
         serializer = CreateRoutineSerializer(data=request.data)        
         if not serializer.is_valid():
             return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
-        isRunning =isRunning()
-        if(isRunning):
+        isAlreadyRunning =isRunning()
+        if(isAlreadyRunning):
             return Response({"message":"Existe una rutina en curso"},status=400)
         serializer.save()        
         routineId=serializer.data['id']        

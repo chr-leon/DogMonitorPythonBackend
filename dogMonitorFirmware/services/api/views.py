@@ -7,7 +7,7 @@ from services.api.device_serializer import ReadDeviceModelSerializer, UpdateDevi
 from services.api.routine_serializers import ReadRoutineByIdSerializer, ReadRoutineModelSerializer, CreateRoutineSerializer
 from rest_framework.generics import ListAPIView 
 from django.db.models import Q
-from sampling.sampling import startSampling
+from sampling.sampling import startSampling,isRunning
 from sampling.sampling import stopSampling
 from services.helpers.Imu_helper import bulk_save_heart_rate, bulk_save_imu, bulk_save_magnetometer, bulk_save_temperature, save_file_name
 from services.models import Routine,Device
@@ -96,7 +96,10 @@ class RoutineViewSet(viewsets.ViewSet):
     def create_and_start_routine(self,request):                
         serializer = CreateRoutineSerializer(data=request.data)        
         if not serializer.is_valid():
-            return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)        
+            return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+        isRunning =isRunning()
+        if(isRunning):
+            return Response({"message":"Existe una rutina en curso"},status=400)
         serializer.save()        
         routineId=serializer.data['id']        
         ######################## save data simulation

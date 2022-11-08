@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from sensors.models import Audio, HeartRate, Imu, Temperature
+from sensors.models import Audio, HeartRate, Imu, Magnetometer, Temperature
 
 class ReadImuModelSerializer(serializers.ModelSerializer):
     class Meta:
@@ -13,6 +13,15 @@ class ReadImuModelSerializer(serializers.ModelSerializer):
             "g_x",
             "g_y",
             "g_z",
+            "type"
+        ]
+
+class ReadMagnetometerModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Magnetometer
+        fields = [
+            "id",
+            "sampled_at",
             "m_x",
             "m_y",
             "m_z",

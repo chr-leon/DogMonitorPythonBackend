@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from services.api.sensors_serializer import ReadAudioModelSerializer, ReadHeartRateModelSerializer, ReadImuModelSerializer, ReadTemperatureModelSerializer
+from services.api.sensors_serializer import ReadAudioModelSerializer, ReadHeartRateModelSerializer, ReadImuModelSerializer, ReadMagnetometerModelSerializer, ReadTemperatureModelSerializer
 from services.models import Routine
 
 class CreateRoutineSerializer(serializers.ModelSerializer):
@@ -28,6 +28,7 @@ class ReadRoutineByIdSerializer(serializers.ModelSerializer):
     temperature =ReadTemperatureModelSerializer(many=True)
     heart_rate = ReadHeartRateModelSerializer(many=True)
     audio = ReadAudioModelSerializer(many=True)
+    magnetometer = ReadMagnetometerModelSerializer(many=True)
     class Meta:
         model=Routine
-        fields = ["id","name","dog_name",'imu','heart_rate','audio','temperature']
+        fields = ["id","name","dog_name",'imu','heart_rate','audio','temperature','magnetometer']

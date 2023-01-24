@@ -54,7 +54,7 @@ class Sampling(threading.Thread):
         self.mpuSampling.start()
 
         # Prepare tail MPU sampling.
-        self.tailMPUSampling = MPUSampling(smbus.SMBus(2))
+        self.tailMPUSampling = MPUSampling(smbus.SMBus(1))
         self.tailMPUSampling.start()
         
         # Start Time.

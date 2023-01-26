@@ -17,6 +17,7 @@ class Sampling(threading.Thread):
         self.running = False
         self.duration = duration
         self.mpuSampling = None
+        self.tailMPUSampling = None
         if(duration == 0):
             self.duration = DEFAUL_DURATION_MS
         SetButton1Callback(self.stop_sampling)
@@ -51,6 +52,10 @@ class Sampling(threading.Thread):
         # Prepare MPU sampling.
         self.mpuSampling =  MPUSampling(smbus.SMBus(3))
         self.mpuSampling.start()
+
+        # Prepare tail MPU sampling.
+        self.tailMPUSampling = MPUSampling(smbus.SMBus(1))
+        self.tailMPUSampling.start()
         
         # Start Time.
         startTime = time.perf_counter()
@@ -66,16 +71,26 @@ class Sampling(threading.Thread):
 
             # Stop sampling if button 1 is pressed or if duration is reached.
             if self.stopFlag == True or (now - startTime) > self.duration:
-                # Stop MPU sampling.
+                # Save last samples.
                 self.saveSamples()
+
+                # Stop MPU sampling.
                 self.mpuSampling.stopSampling()
                 time.sleep(0.5)
                 if self.mpuSampling.isRunning():
                     print("Failed to Stop MPU sampling")
+
+                # Stop tail MPU sampling.                
+                self.tailMPUSampling.stopSampling()
+                time.sleep(0.5)
+                if self.tailMPUSampling.isRunning():
+                    print("Failed to Stop MPU sampling")
+
                 # Stop led timer.
                 ledTimer.stop()
                 GreenLedOn()
                 break
+
             time.sleep(0.1)
         self.running = False
         self.stopFlag = False
@@ -85,9 +100,14 @@ class Sampling(threading.Thread):
         return self.running
 
     def saveSamples(self):        
+        # Save MPU1 samples
         mpu1Samples = self.mpuSampling.getSampleQueue()
-        print("Samples saved: " + str(len(mpu1Samples)))        
-        bulk_save_imu(self.id,mpu1Samples,"head")        
+        print("Samples mnpu1 saved: " + str(len(mpu1Samples)))        
+        bulk_save_imu(self.id,mpu1Samples,"head")       
+        # Save MPU2 samples
+        mpu2Samples = self.tailMPUSampling.getSampleQueue()
+        print("Samples mnpu2 saved: " + str(len(mpu2Samples)))        
+        bulk_save_imu(self.id,mpu1Samples,"tail")      
         return
 
 samplingProcess = None

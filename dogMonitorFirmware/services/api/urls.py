@@ -20,6 +20,7 @@ urlpatterns = [
 
 
     path('status', ServiceViewSet.as_view({ 'get':'get_status' })),
+    path('is-running', ServiceViewSet.as_view({ 'get':'is_running' })),
     path('health', ServiceViewSet.as_view({ 'get':'get_sensors_health' })),
 ]
  

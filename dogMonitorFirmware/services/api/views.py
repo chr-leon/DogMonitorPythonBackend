@@ -7,7 +7,7 @@ from services.api.device_serializer import ReadDeviceModelSerializer, UpdateDevi
 from services.api.routine_serializers import ReadRoutineByIdSerializer, ReadRoutineModelSerializer, CreateRoutineSerializer
 from rest_framework.generics import ListAPIView 
 from django.db.models import Q
-from sampling.sampling import startSampling,isRunning,getRoutineId
+from sampling.sampling import startSampling,isRunning,getRunningRoutineId
 from sampling.sampling import stopSampling
 from services.helpers.Imu_helper import bulk_save_heart_rate, bulk_save_imu, bulk_save_magnetometer, bulk_save_temperature, save_file_name
 from services.models import Routine,Device
@@ -80,7 +80,7 @@ class DeviceViewSet(viewsets.ViewSet):
         return Response(serializer.data,status=status.HTTP_200_OK)
     def is_running(self,request):
         if isRunning():
-            routine_id = getRoutineId()
+            routine_id = getRunningRoutineId()
             queryset = Routine.objects.all()
             routine = queryset.get(pk=routine_id)
             return Response({

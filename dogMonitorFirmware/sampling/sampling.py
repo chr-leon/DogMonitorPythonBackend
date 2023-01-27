@@ -169,3 +169,5 @@ def isRunning():
         return True
     else: 
         return False
+def getRunningRoutineId():
+    return samplingProcess.getRoutineId()

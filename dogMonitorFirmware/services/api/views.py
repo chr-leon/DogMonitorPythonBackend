@@ -85,7 +85,8 @@ class DeviceViewSet(viewsets.ViewSet):
             routine = queryset.get(pk=routine_id)
             return Response({
                 "running":True,
-                "routine_name":routine.name
+                "routine_name":routine.name,
+                "routine_id":routine.id
                 },status=status.HTTP_200_OK)
         else:
             return Response({"running":False},status=status.HTTP_200_OK)

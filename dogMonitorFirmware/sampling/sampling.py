@@ -98,6 +98,9 @@ class Sampling(threading.Thread):
 
     def isRunning(self):
         return self.running
+    
+    def getRoutineId(self):
+        return self.id
 
     def saveSamples(self):        
         # Save MPU1 samples
@@ -166,3 +169,5 @@ def isRunning():
         return True
     else: 
         return False
+def getRunningRoutineId():
+    return samplingProcess.getRoutineId()

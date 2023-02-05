@@ -1,6 +1,7 @@
 import smbus			#import SMBus module of I2C
 from utils.RepeatedTimer import RepeatedTimer
 from sampling.mpuSampling import MPUSampling
+from sampling.magSampling import MagSampling
 from utils.board import *
 from services.helpers.Imu_helper import bulk_save_imu
 import time
@@ -16,8 +17,10 @@ class Sampling(threading.Thread):
         self.stopFlag = False
         self.running = False
         self.duration = duration
-        self.mpuSampling = None
-        self.tailMPUSampling = None
+        self.mpuSampling = MPUSampling(smbus.SMBus(3))
+        self.tailMPUSampling = MPUSampling(smbus.SMBus(1))
+        self.magSampling = MagSampling(smbus.SMBugs(3))
+        self.tailMagSampling = MagSampling(smbus.SMBus(1))
         if(duration == 0):
             self.duration = DEFAUL_DURATION_MS
         SetButton1Callback(self.stop_sampling)
@@ -28,6 +31,11 @@ class Sampling(threading.Thread):
             "mic": False,
             "hr": False
         }
+    
+    def setSamplingParams(self, id, duration):
+        self.id = id
+        self.duration = duration
+        return        
 
     def button1pressed():
         print("Button 1 pressed")
@@ -50,12 +58,16 @@ class Sampling(threading.Thread):
         ledTimer = RepeatedTimer(0.5, ToogleGreenLed)
         
         # Prepare MPU sampling.
-        self.mpuSampling =  MPUSampling(smbus.SMBus(3))
         self.mpuSampling.start()
 
         # Prepare tail MPU sampling.
-        self.tailMPUSampling = MPUSampling(smbus.SMBus(1))
         self.tailMPUSampling.start()
+
+        # Prepare Mag sampling.
+        self.magSampling.start()
+
+        # Prepare tail Mag sampling.
+        self.tailMagSampling.start()
         
         # Start Time.
         startTime = time.perf_counter()
@@ -86,6 +98,18 @@ class Sampling(threading.Thread):
                 if self.tailMPUSampling.isRunning():
                     print("Failed to Stop MPU sampling")
 
+                # Stop Mag sampling.
+                self.magSampling.stopSampling()
+                time.sleep(0.5)
+                if self.magSampling.isRunning():
+                    print("Failed to Stop Mag sampling")
+
+                # Stop tail Mag sampling.
+                self.tailMagSampling.stopSampling()
+                time.sleep(0.5)
+                if self.tailMagSampling.isRunning():
+                    print("Failed to Stop Mag sampling")
+
                 # Stop led timer.
                 ledTimer.stop()
                 GreenLedOn()
@@ -108,7 +132,26 @@ class Sampling(threading.Thread):
         mpu2Samples = self.tailMPUSampling.getSampleQueue()
         print("Samples mnpu2 saved: " + str(len(mpu2Samples)))        
         bulk_save_imu(self.id,mpu1Samples,"tail")      
+
+        # Save Mag1 samples
+        mag1Samples = self.magSampling.getSampleQueue()
+        print("Samples mag1 saved: " + str(len(mag1Samples)))
+        # Save Mag2 samples
+        mag2Samples = self.tailMagSampling.getSampleQueue()
+        print("Samples mag2 saved: " + str(len(mag2Samples)))
+
         return
+    
+    def getHealth(self):
+        status = {
+            "temperature":False,
+            "microphone":False,
+            "imu_tail":self.mpuSampling.health(),
+            "imu_head":self.tailMPUSampling.health(),
+            "heart_rate":False
+        }
+        return status
+
 
 samplingProcess = None
 
@@ -127,7 +170,7 @@ def startSampling(id, durationSeconds):
             return True
     
     
-    samplingProcess = Sampling(id,durationSeconds)
+    samplingProcess.setSamplingParams(id, durationSeconds)
     samplingProcess.start()
     time.sleep(1)
     if samplingProcess.isRunning():
@@ -166,3 +209,12 @@ def isRunning():
         return True
     else: 
         return False
+
+def getHealth():
+    global samplingProcess
+    
+    if samplingProcess == None:
+        samplingProcess = Sampling(0, 10)
+    
+    return samplingProcess.getHealth()
+    

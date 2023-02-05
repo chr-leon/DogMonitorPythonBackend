@@ -1,6 +1,5 @@
-from tracemalloc import start
 from utils.RepeatedTimer import RepeatedTimer
-from sampling.MPUHandler import MPUHandler
+from sampling.MagHandler import MagHandler
 import threading
 import time
 mutex = threading.Lock()
@@ -9,10 +8,10 @@ timerOffset = 0.00
 samplingPeriod = 1/10 - timerOffset
 
 
-class MPUSampling(threading.Thread):
+class MagSampling(threading.Thread):
     def __init__(self, bus):
         threading.Thread.__init__(self)
-        self.mpu = MPUHandler(bus)
+        self.mag = MagHandler(bus)
         self.sampleQueue = []
         self.running = False
         self.stop = False
@@ -24,7 +23,7 @@ class MPUSampling(threading.Thread):
         self.stop = True
 
     def getSample(self):        
-        sample = self.mpu.get_one_sample()
+        sample = self.mag.get_one_sample()
         if self.startTime == 0:
             self.startTime = time.perf_counter()
         sample[0] = (time.perf_counter() - self.startTime) * 1000
@@ -45,7 +44,7 @@ class MPUSampling(threading.Thread):
         return tmp
 
     def health(self):
-        return self.mpu.connect()
+        return self.mag.connect()
 
     def run(self):
         print("Starting sampling")
@@ -53,8 +52,8 @@ class MPUSampling(threading.Thread):
             print("Already running")
             return
         self.running = True
-        if not self.mpu.connect():
-            print("Error connecting to MPU")
+        if not self.mag.connect():
+            print("Error connecting to Magnetometer")
             self.running = False
             return
         self.startTime = 0

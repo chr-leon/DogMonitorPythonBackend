@@ -7,7 +7,7 @@ from services.api.device_serializer import ReadDeviceModelSerializer, UpdateDevi
 from services.api.routine_serializers import ReadRoutineByIdSerializer, ReadRoutineModelSerializer, CreateRoutineSerializer
 from rest_framework.generics import ListAPIView 
 from django.db.models import Q
-from sampling.sampling import startSampling,isRunning
+from sampling.sampling import startSampling, isRunning, getHealth
 from sampling.sampling import stopSampling
 from services.helpers.Imu_helper import bulk_save_heart_rate, bulk_save_imu, bulk_save_magnetometer, bulk_save_temperature, save_file_name
 from services.models import Routine,Device
@@ -59,7 +59,7 @@ class ServiceViewSet(viewsets.ViewSet):
             "imu_head":True,
             "heart_rate":True
         }
-        return Response(simulatedStatus,status=status.HTTP_200_OK)
+        return Response(getHealth(),status=status.HTTP_200_OK)
 
 
 class DeviceViewSet(viewsets.ViewSet):

@@ -10,6 +10,7 @@ urlpatterns = [
     #Device services
     path('device', DeviceViewSet.as_view({ 'get':'get_device' })),
     path('device/1', DeviceViewSet.as_view({ 'put':'update_device' })),
+    path('is-running', DeviceViewSet.as_view({ 'get':'is_running' })),
     
     #RoutineServices
     path('routine', RoutineViewSet.as_view({ 'post':'create_and_start_routine' })),

@@ -37,6 +37,11 @@ class Sampling(threading.Thread):
         self.duration = duration
         return        
 
+    def setSamplingParams(self, id, duration):
+        self.id = id
+        self.duration = duration
+        return        
+
     def button1pressed():
         print("Button 1 pressed")
         return
@@ -122,6 +127,9 @@ class Sampling(threading.Thread):
 
     def isRunning(self):
         return self.running
+    
+    def getRoutineId(self):
+        return self.id
 
     def saveSamples(self):        
         # Save MPU1 samples
@@ -219,4 +227,8 @@ def getHealth():
         samplingProcess = Sampling(0, 10)
     
     return samplingProcess.getHealth()
+
+def getRunningRoutineId():
+    return samplingProcess.getRoutineId()
+
     

@@ -7,7 +7,7 @@ from services.api.device_serializer import ReadDeviceModelSerializer, UpdateDevi
 from services.api.routine_serializers import ReadRoutineByIdSerializer, ReadRoutineModelSerializer, CreateRoutineSerializer
 from rest_framework.generics import ListAPIView 
 from django.db.models import Q
-from sampling.sampling import startSampling, isRunning, getHealth
+from sampling.sampling import startSampling,isRunning,getRunningRoutineId,getHealth
 from sampling.sampling import stopSampling
 from services.helpers.Imu_helper import bulk_save_heart_rate, bulk_save_imu, bulk_save_magnetometer, bulk_save_temperature, save_file_name
 from services.models import Routine,Device
@@ -78,21 +78,42 @@ class DeviceViewSet(viewsets.ViewSet):
         if serializer.is_valid(): 
             serializer.save()
         return Response(serializer.data,status=status.HTTP_200_OK)
+    def is_running(self,request):
+        if isRunning():
+            routine_id = getRunningRoutineId()
+            queryset = Routine.objects.all()
+            routine = queryset.get(pk=routine_id)
+            return Response({
+                "running":True,
+                "routine_name":routine.name,
+                "routine_id":routine.id
+                },status=status.HTTP_200_OK)
+        else:
+            return Response({"running":False},status=status.HTTP_200_OK)
+
+
 
 
 class RoutineViewSet(viewsets.ViewSet):
     def search_routine(self,request):
         querySet = Routine.objects.all()
         searchString = request.GET.get('search',None)
+        if(isRunning()):
+            runningRoutineId=getRunningRoutineId()
+            querySet =querySet.filter(~Q(id=runningRoutineId))
+        #dataToResponse = None;
         if searchString == None:
-            print("no filter")
+            print("no filter")  
             serializer = ReadRoutineModelSerializer(querySet,many=True)
-            return Response(serializer.data,status=status.HTTP_200_OK)
+            dataToResponse = serializer.data
+            #return Response(serializer.data,status=status.HTTP_200_OK)
         else:
             print("using filter: ",searchString)
             filteredRoutines = querySet.filter(Q(dog_name__startswith=searchString))
             serializer = ReadRoutineModelSerializer(filteredRoutines,many=True)
-            return Response(serializer.data,status=status.HTTP_200_OK)
+            dataToResponse = serializer.data
+            #return Response(serializer.data,status=status.HTTP_200_OK)
+        return Response(dataToResponse,status=status.HTTP_200_OK)
     def create_and_start_routine(self,request):                
         serializer = CreateRoutineSerializer(data=request.data)        
         if not serializer.is_valid():

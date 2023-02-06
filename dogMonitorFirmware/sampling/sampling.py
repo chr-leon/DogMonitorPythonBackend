@@ -3,7 +3,7 @@ from utils.RepeatedTimer import RepeatedTimer
 from sampling.mpuSampling import MPUSampling
 from sampling.magSampling import MagSampling
 from utils.board import *
-from services.helpers.Imu_helper import bulk_save_imu
+from services.helpers.Imu_helper import bulk_save_imu, bulk_save_magnetometer, bulk_save_temperature
 import time
 import threading
 
@@ -19,7 +19,7 @@ class Sampling(threading.Thread):
         self.duration = duration
         self.mpuSampling = MPUSampling(smbus.SMBus(3))
         self.tailMPUSampling = MPUSampling(smbus.SMBus(1))
-        self.magSampling = MagSampling(smbus.SMBugs(3))
+        self.magSampling = MagSampling(smbus.SMBus(3))
         self.tailMagSampling = MagSampling(smbus.SMBus(1))
         if(duration == 0):
             self.duration = DEFAUL_DURATION_MS
@@ -136,9 +136,11 @@ class Sampling(threading.Thread):
         # Save Mag1 samples
         mag1Samples = self.magSampling.getSampleQueue()
         print("Samples mag1 saved: " + str(len(mag1Samples)))
+        bulk_save_magnetometer(self.id,mag1Samples,"head")
         # Save Mag2 samples
         mag2Samples = self.tailMagSampling.getSampleQueue()
         print("Samples mag2 saved: " + str(len(mag2Samples)))
+        bulk_save_magnetometer(self.id,mag2Samples,"tail")
 
         return
     

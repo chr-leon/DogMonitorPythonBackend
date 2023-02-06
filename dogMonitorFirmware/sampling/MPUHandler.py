@@ -27,6 +27,10 @@ class MPUHandler:
 
     def connect(self):        
         try:
+            #Turn on Magnetometer.            
+            self.bus.write_byte_data(self.Device_Address, 0x37, 0x02)
+            self.bus.write_byte_data(self.Device_Address, 0x6A, 0x00)
+            self.bus.write_byte_data(self.Device_Address, 0x6B, 0x00)
             #write to sample rate register
             self.bus.write_byte_data(self.Device_Address, self.SMPLRT_DIV, 199)
             #Write to power management register

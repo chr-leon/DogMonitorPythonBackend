@@ -7,20 +7,21 @@ import time
 class MagHandler:
 
     def __init__(self, bus):        
-        Register_A     = 0              #Address of Configuration register A
-        Register_B     = 0x01           #Address of configuration register B
-        Register_mode  = 0x02           #Address of mode register
+        self.Register_A     = 0              #Address of Configuration register A
+        self.Register_B     = 0x01           #Address of configuration register B
+        self.Register_mode  = 0x02           #Address of mode register
 
-        X_axis_H    = 0x03              #Address of X-axis MSB data register
-        Z_axis_H    = 0x05              #Address of Z-axis MSB data register
-        Y_axis_H    = 0x07              #Address of Y-axis MSB data register
+        self.X_axis_H    = 0x03              #Address of X-axis MSB data register
+        self.Z_axis_H    = 0x05              #Address of Z-axis MSB data register
+        self.Y_axis_H    = 0x07              #Address of Y-axis MSB data register
 
 
         self.Device_Address = 0x1E   # MPU6050 device address
         self.bus = bus 
 
-    def connect(self):        
+    def connect(self):                
         try:
+            time.sleep(1)
             #write to Configuration Register A
             self.bus.write_byte_data(self.Device_Address, self.Register_A, 0x70)
 
@@ -30,7 +31,7 @@ class MagHandler:
             #Write to mode Register for selecting mode
             self.bus.write_byte_data(self.Device_Address, self.Register_mode, 0)
         except:
-            return False
+            return False        
         return True
 
     def read_raw_data(self, addr):
@@ -52,3 +53,16 @@ class MagHandler:
         y = self.read_raw_data(self.Y_axis_H)
         
         return [0, x, y, z]
+
+# Main
+
+if __name__ == "__main__":
+    bus = smbus.SMBus(3)
+    mag = MagHandler(bus)
+    if mag.connect() :
+        while True:
+            sample = mag.get_one_sample()
+            print(sample)
+            time.sleep(1)
+    else:
+        print("Error connecting to Magnetometer")

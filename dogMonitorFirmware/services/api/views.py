@@ -12,6 +12,7 @@ from sampling.sampling import stopSampling
 from services.helpers.Imu_helper import bulk_save_heart_rate, bulk_save_imu, bulk_save_magnetometer, bulk_save_temperature, save_file_name
 from services.models import Routine,Device
 from rest_framework.filters import SearchFilter, OrderingFilter
+from microphone.microphone import startRecording,stopRecording
 
 
 
@@ -150,10 +151,10 @@ class RoutineViewSet(viewsets.ViewSet):
             [2,6,7,8]
         ]
         bulk_save_magnetometer(routineId=routineId,data=dataMagnetometer,sensorType="tail")
-
+        startRecording(str(routineId));
         # save_file_name(routineId=routineId,fileName=serializer.data['name']+".mp3")
         ###########################
-        succes = startSampling(serializer.data['id'],300)        
+        succes = startSampling(serializer.data['id'],300)
         return Response({"success":succes,"data":serializer.data},status=status.HTTP_200_OK)
 
     def delete_routine(self,request,pk=None):
@@ -163,6 +164,7 @@ class RoutineViewSet(viewsets.ViewSet):
         return Response(status=200)
     def stop_routine(self,request):
         succes = stopSampling()
+        stopRecording()
         return Response({"success":succes},status=status.HTTP_200_OK)
         
     def get_routine_by_id(self,request,pk):

@@ -1,16 +1,23 @@
 import pyaudio
 import wave
 import threading
+#Import os module
+import os
+from services.helpers.Imu_helper import save_file_name
 
 
 form_1 = pyaudio.paInt16 # 16-bit resolution
 chans = 1 # 1 channel
 samp_rate = 44100 # 44.1kHz sampling rate
 chunk = 4096 # 2^12 samples for buffer
+dirname = "dogMonitorFirmware/audio"
 
 class Microphone(threading.Thread):
     def __init__(self,routine_id):
         threading.Thread.__init__(self)
+        if os.path.isdir(dirname) == False:
+            os.mkdir(dirname)
+
         self.routine_id =routine_id
         self.recording=False
         self.form_1 = pyaudio.paInt16 # 16-bit resolution
@@ -44,12 +51,14 @@ class Microphone(threading.Thread):
         stream.stop_stream()
         stream.close()
         audio.terminate()
-        wavefile = wave.open(self.routine_id+".wav",'wb')
+        fileName=self.routine_id+".wav"
+        wavefile = wave.open("./dogMonitorFirmware/audio/"+fileName,'wb')
         wavefile.setnchannels(chans)
         wavefile.setsampwidth(audio.get_sample_size(form_1))
         wavefile.setframerate(samp_rate)
         wavefile.writeframes(b''.join(frames))
         wavefile.close()
+        save_file_name(self.routine_id,fileName=fileName)
 
     def stop(self):
         self.recording=False

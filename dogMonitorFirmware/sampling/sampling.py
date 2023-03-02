@@ -5,6 +5,7 @@ from utils.board import *
 from services.helpers.Imu_helper import bulk_save_imu
 import time
 import threading
+from microphone.microphone import startRecording,stopRecording
 
 DEFAUL_DURATION_MS = 60*60*60 # 1 hour
 
@@ -71,6 +72,7 @@ class Sampling(threading.Thread):
 
             # Stop sampling if button 1 is pressed or if duration is reached.
             if self.stopFlag == True or (now - startTime) > self.duration:
+                stopRecording()
                 # Save last samples.
                 self.saveSamples()
 
@@ -132,6 +134,7 @@ def startSampling(id, durationSeconds):
     
     samplingProcess = Sampling(id,durationSeconds)
     samplingProcess.start()
+    startRecording(str(id))
     time.sleep(1)
     if samplingProcess.isRunning():
         print("Sampling started Good")
@@ -140,7 +143,6 @@ def startSampling(id, durationSeconds):
 
 def stopSampling():
     global samplingProcess
-    
     if samplingProcess == None:
         print("No sampling is running")
         return True

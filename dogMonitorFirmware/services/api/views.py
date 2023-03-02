@@ -13,6 +13,9 @@ from services.helpers.Imu_helper import bulk_save_heart_rate, bulk_save_imu, bul
 from services.models import Routine,Device
 from rest_framework.filters import SearchFilter, OrderingFilter
 from microphone.microphone import startRecording,stopRecording
+import os
+from django.conf import settings
+import base64
 
 
 
@@ -151,7 +154,7 @@ class RoutineViewSet(viewsets.ViewSet):
             [2,6,7,8]
         ]
         bulk_save_magnetometer(routineId=routineId,data=dataMagnetometer,sensorType="tail")
-        startRecording(str(routineId));
+        #startRecording(str(routineId));
         # save_file_name(routineId=routineId,fileName=serializer.data['name']+".mp3")
         ###########################
         succes = startSampling(serializer.data['id'],300)
@@ -160,17 +163,32 @@ class RoutineViewSet(viewsets.ViewSet):
     def delete_routine(self,request,pk=None):
         queryset = Routine.objects.all()
         routine = queryset.get(pk=pk)
+        try:
+            serializer = ReadRoutineByIdSerializer(routine)
+            filePath =os.path.join(settings.BASE_DIR)+"/dogMonitorFirmware/audio/"
+            path=filePath+serializer.data["audio"][0]["file_name"]
+            if os.path.isfile(path):
+                os.remove(path)
+                print("Deleted: ",path)
+            else:
+                # If it fails, inform the user.
+                print("Error: %s file not found" % path)
+        except:
+            print("Error deleting file, maybe no exist")
         routine.delete()
+        #deleting audio file
+
         return Response(status=200)
     def stop_routine(self,request):
         succes = stopSampling()
-        stopRecording()
+        #stopRecording()
         return Response({"success":succes},status=status.HTTP_200_OK)
         
     def get_routine_by_id(self,request,pk):
         queryset = Routine.objects.all()
         routine = queryset.get(pk=pk)
         serializer = ReadRoutineByIdSerializer(routine)
+        #serializer = encoded_string
         return Response(serializer.data,status=200)
 
 

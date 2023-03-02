@@ -44,10 +44,18 @@ class Microphone(threading.Thread):
         while(True):
             if not self.recording:
                 break
-            print("Recording--------------->")
-            data = stream.read(chunk)
-            frames.append(data)
-        print("recordong finished")
+            try:
+                print("Recording...")
+                data = stream.read(chunk)
+                frames.append(data)
+            except Exception as err:
+                print(err)
+                stream = audio.open(format = form_1,rate = samp_rate,channels = chans, \
+                        input_device_index = self.deviceIndex,input = True, \
+                        frames_per_buffer=chunk)
+                print("<--------------------Error recording audio frame--------------------->")
+
+        print("recording finished")
         stream.stop_stream()
         stream.close()
         audio.terminate()
@@ -76,5 +84,6 @@ def startRecording(routineId):
     recordProcess.start()
     return False
 def stopRecording():
+    print("stop reconrding audio --->")
     if  not recordProcess == None:
         recordProcess.stop()

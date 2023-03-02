@@ -1,6 +1,10 @@
+import os
 from rest_framework import serializers
 from services.api.sensors_serializer import ReadAudioModelSerializer, ReadHeartRateModelSerializer, ReadImuModelSerializer, ReadMagnetometerModelSerializer, ReadTemperatureModelSerializer
 from services.models import Routine
+import os
+from django.conf import settings
+import base64
 
 class CreateRoutineSerializer(serializers.ModelSerializer):
     ##routine_id = serializers.CharField()
@@ -32,3 +36,14 @@ class ReadRoutineByIdSerializer(serializers.ModelSerializer):
     class Meta:
         model=Routine
         fields = ["id","name","dog_name",'imu','heart_rate','audio','temperature','magnetometer']
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        filePath =os.path.join(settings.BASE_DIR)+"/dogMonitorFirmware/audio/"
+        #print(filePath)
+        fileName=representation['audio'][0]['file_name'];
+        file_ = open(filePath+fileName,mode='rb')
+        encoded_string = base64.b64encode(file_.read())
+        #print(encoded_string)
+        representation['audio'][0]["data"] = encoded_string
+
+        return representation
